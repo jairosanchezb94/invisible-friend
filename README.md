@@ -1,4 +1,14 @@
-# 🎁 Invisible Friend (Amigo Invisible)
+feat: Initial release of Invisible Friend
+
+- Core functionality: Secret Santa pairing algorithm
+- UI: Minimalist dark mode design with Tailwind CSS
+- Features:
+  - LocalStorage persistence for data safety
+  - User exclusions (anti-pairing rules)
+  - PIN protection for results
+  - Party mode with sound effects and confetti
+  - WhatsApp sharing integration
+- Tech stack: Astro, React, Tailwind# 🎁 Invisible Friend (Amigo Invisible)
 
 Una aplicación web minimalista y moderna para organizar el Amigo Invisible, construida con **Astro**, **React** y **Tailwind CSS**. Diseñada para ser utilizada en una fiesta o reunión, pasando el dispositivo de mano en mano de forma segura y divertida.
 
