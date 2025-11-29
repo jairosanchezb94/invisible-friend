@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings, Lock, Ban, X } from 'lucide-react';
+import { Settings, Lock, Ban, X, Mail } from 'lucide-react';
 
 export const ParticipantSettingsModal = ({ participant, participants, onUpdate, onClose }) => {
   if (!participant) return null;
@@ -17,6 +17,17 @@ export const ParticipantSettingsModal = ({ participant, participants, onUpdate, 
         <div className="space-y-6">
           <div className="space-y-2">
             <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider flex items-center gap-2">
+              <Mail size={12} /> Email (Opcional)
+            </label>
+            <input 
+              type="email" placeholder="correo@ejemplo.com" value={participant.email || ''}
+              onChange={(e) => onUpdate(participant.id, { email: e.target.value })}
+              className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-white/40 text-sm"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider flex items-center gap-2">
               <Lock size={12} /> PIN de Seguridad
             </label>
             <input 
@@ -28,7 +39,7 @@ export const ParticipantSettingsModal = ({ participant, participants, onUpdate, 
 
           <div className="space-y-2">
             <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider flex items-center gap-2">
-              <Ban size={12} /> Exclusiones
+              <Ban size={12} /> Exclusiones (A quién NO puede regalar)
             </label>
             <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-2 max-h-[150px] overflow-y-auto custom-scrollbar">
               {participants.filter(p => p.id !== participant.id).map(p => (

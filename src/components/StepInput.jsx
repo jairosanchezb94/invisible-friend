@@ -65,8 +65,8 @@ export const StepInput = ({ settings, setSettings, participants, addParticipant,
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 rounded-full bg-neutral-800 flex items-center justify-center text-[10px] font-bold text-neutral-400">{idx + 1}</div>
                     <span className="font-medium text-neutral-200">{p.name}</span>
-                    {p.pin && <Lock size={12} className="text-yellow-500" />}
-                    {p.exclusions.length > 0 && <Ban size={12} className="text-red-500" />}
+                    {p.pin && <Lock size={12} className="text-yellow-500" title="Tiene PIN" />}
+                    {p.exclusions.length > 0 && <Ban size={12} className="text-red-500" title="Tiene exclusiones" />}
                   </div>
                   <div className="flex items-center gap-1">
                     <button onClick={() => setEditingParticipant(p)} className="p-2 text-neutral-600 hover:text-white transition-colors"><Settings size={16} /></button>

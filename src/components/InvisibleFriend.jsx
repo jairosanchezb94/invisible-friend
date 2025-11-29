@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Volume2, VolumeX, RefreshCw } from 'lucide-react';
 import { useInvisibleFriend } from '../hooks/useInvisibleFriend';
 import { StepInput } from './StepInput';
-import { StepResult, IndividualModal } from './StepResult';
+import { StepResult } from './StepResult';
 import { ParticipantSettingsModal, PinModal, ResetModal } from './Modals';
 import { playSound } from '../utils/sound';
 
@@ -18,29 +18,15 @@ const App = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const handleUserSelection = (participant) => {
+    // Deprecated in turn-based mode but kept for compatibility if needed
     playSound('click', soundEnabled);
-    if (participant.pin) {
-      setPendingUser(participant);
-      setShowPinModal(true);
-    } else {
-      setSelectedUser(participant.name);
-    }
-  };
-
-  const handlePinSuccess = () => {
-    playSound('success', soundEnabled);
-    setSelectedUser(pendingUser.name);
-    setShowPinModal(false);
-    setPendingUser(null);
   };
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-200 font-sans selection:bg-white selection:text-black flex items-center justify-center p-4 md:p-8">
       {showResetConfirm && <ResetModal onConfirm={() => { actions.resetGame(); setShowResetConfirm(false); }} onCancel={() => setShowResetConfirm(false)} />}
       {editingParticipant && <ParticipantSettingsModal participant={editingParticipant} participants={participants} onUpdate={actions.updateParticipant} onClose={() => setEditingParticipant(null)} />}
-      {showPinModal && <PinModal user={pendingUser} onClose={() => { setShowPinModal(false); setPendingUser(null); }} onSuccess={handlePinSuccess} soundEnabled={soundEnabled} />}
-      {selectedUser && <IndividualModal user={selectedUser} assignment={assignments[selectedUser]} settings={settings} onClose={(mark) => { if(mark) actions.setViewedUsers([...viewedUsers, selectedUser]); setSelectedUser(null); }} soundEnabled={soundEnabled} />}
-
+      
       <div className="w-full max-w-3xl grid grid-cols-1 gap-6">
         <div className="flex items-center justify-between pb-6 border-b border-neutral-800">
           <div className="flex flex-col">
@@ -78,6 +64,12 @@ const App = () => {
               settings={settings}
               onSelectUser={handleUserSelection}
               onReset={() => setShowResetConfirm(true)}
+              onSendEmails={actions.sendResultsByEmail}
+              onUpdateParticipant={actions.updateParticipant}
+              onSendNotification={actions.sendNotification}
+              onMarkAsViewed={(name) => actions.setViewedUsers([...viewedUsers, name])}
+              getShareLink={actions.getShareLink}
+              isSharedMode={state.isSharedMode}
               soundEnabled={soundEnabled}
             />
           )}
