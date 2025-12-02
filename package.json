@@ -16,9 +16,8 @@
     "@astrojs/node": "^8.3.4",
     "@astrojs/react": "^3.0.0",
     "@astrojs/tailwind": "^5.0.0",
-    "@astrojs/vercel": "^7.8.2",
     "@vercel/analytics": "^1.6.0",
-    "astro": "^4.0.0",
+    "astro": "^5.16.3",
     "canvas-confetti": "^1.9.0",
     "gsap": "^3.12.0",
     "lucide-react": "^0.300.0",
@@ -30,6 +29,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@astrojs/vercel": "^9.0.2",
     "sass": "^1.70.0"
   }
 }
