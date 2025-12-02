@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import InvisibleFriend from '../components/InvisibleFriend.jsx';
+---
+
+<Layout title="Invisible Friend">
+	<main>
+		<InvisibleFriend client:only="react" />
+	</main>
+</Layout>
