@@ -31,7 +31,6 @@ export const useInvisibleFriend = () => {
           setIsSharedMode(true);
         }
       } catch (e) {
-        console.error('Error loading shared data', e);
       }
     }
   }, []);
@@ -151,7 +150,6 @@ export const useInvisibleFriend = () => {
         alert(`Error al enviar correos: ${data.error || 'Desconocido'}`);
       }
     } catch (error) {
-      console.error(error);
       alert('Error de conexión al intentar enviar los correos.');
     }
   };

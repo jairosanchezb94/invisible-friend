@@ -1,28 +1,16 @@
 import nodemailer from 'nodemailer';
+export { renderers } from '../../renderers.mjs';
 
-export const POST = async ({ request }) => {
+const POST = async ({ request }) => {
   try {
     const { results, settings } = await request.json();
-
-    // Configuración del transporte de correo
-    // Intenta usar variables de entorno, si no existen, usa Ethereal para pruebas
-    const host = import.meta.env.SMTP_HOST;
-    const user = import.meta.env.SMTP_USER;
-    const pass = import.meta.env.SMTP_PASS;
-
+    const host = undefined                         ;
+    const user = undefined                         ;
+    const pass = undefined                         ;
     let transporter;
-
-    if (host && user && pass) {
-      transporter = nodemailer.createTransport({
-        host,
-        port: 587,
-        secure: false,
-        auth: { user, pass }
-      });
-    } else {
-      // Modo simulación / Ethereal
-      
-      // Crear cuenta de prueba en Ethereal
+    if (host && user && pass) ; else {
+      console.log("--- MODO SIMULACIÓN: No se han configurado variables SMTP ---");
+      console.log("Para envío real configura: SMTP_HOST, SMTP_USER, SMTP_PASS");
       const testAccount = await nodemailer.createTestAccount();
       transporter = nodemailer.createTransport({
         host: "smtp.ethereal.email",
@@ -30,16 +18,16 @@ export const POST = async ({ request }) => {
         secure: false,
         auth: {
           user: testAccount.user,
-          pass: testAccount.pass,
-        },
+          pass: testAccount.pass
+        }
       });
+      console.log(`Cuenta de prueba Ethereal creada: ${testAccount.user}`);
     }
-
     const emailPromises = results.map(async (result) => {
       const info = await transporter.sendMail({
         from: '"Invisible Friend" <noreply@invisiblefriend.app>',
         to: result.email,
-        subject: '🎁 Tu Amigo Invisible',
+        subject: "🎁 Tu Amigo Invisible",
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #f5f5f5; padding: 20px; border-radius: 10px;">
             <h1 style="color: #333; text-align: center;">Hola ${result.name}!</h1>
@@ -61,21 +49,30 @@ export const POST = async ({ request }) => {
           </div>
         `
       });
-
+      if (!host) {
+        console.log(`Vista previa del correo para ${result.name}: ${nodemailer.getTestMessageUrl(info)}`);
+      }
       return info;
     });
-
     await Promise.all(emailPromises);
-
-    return new Response(JSON.stringify({ success: true, message: 'Correos enviados' }), {
+    return new Response(JSON.stringify({ success: true, message: "Correos enviados" }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { "Content-Type": "application/json" }
     });
-
   } catch (error) {
+    console.error("Error enviando correos:", error);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { "Content-Type": "application/json" }
     });
   }
 };
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  POST
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };

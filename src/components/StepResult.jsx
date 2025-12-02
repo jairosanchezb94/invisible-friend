@@ -23,7 +23,6 @@ const IndividualModal = ({ user, assignment, settings, onClose, soundEnabled }) 
           text: text,
         });
       } catch (err) {
-        console.log('Error sharing', err);
       }
     } else {
       navigator.clipboard.writeText(text);
